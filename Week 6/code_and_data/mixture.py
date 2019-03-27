@@ -141,9 +141,10 @@ class Model(object):
         implement this in terms of NumPy matrix and vector operations, rather than a for loop."""
 
         ######################## Your code here #########################
-        pass
+        pi = 1 - self.prior.a_mix - np.sum(R, axis=0)
+        pi /= np.sum(pi)
 
-
+        return pi
         #################################################################
         
     def update_theta(self, X, R):
@@ -153,9 +154,10 @@ class Model(object):
         terms of NumPy matrix and vector operations, rather than a for loop."""
 
         ######################## Your code here #########################
-        pass
+        num = np.matmul(R.T, X) + self.prior.a_pixels - 1
+        den = np.sum(R, axis=0) + self.prior.a_pixels + self.prior.b_pixels - 2
 
-
+        return num / den[:, None]
         #################################################################
 
     def compute_posterior(self, X, M=None):
