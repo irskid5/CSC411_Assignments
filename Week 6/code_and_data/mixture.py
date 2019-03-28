@@ -179,9 +179,9 @@ class Model(object):
             M = np.ones(X.shape, dtype=int)
 
         ######################## Your code here #########################
-        
-
-
+        log_p_x_given_z = np.dot(np.multiply(M, X), np.log(self.params.theta).T) + \
+                          np.dot(np.multiply(M, 1. - X), np.log(1. - self.params.theta).T)
+        log_p_z_x = log_p_x_given_z + np.log(self.params.pi)
         #################################################################
             
         # subtract the max of each row to avoid numerical instability
@@ -203,9 +203,8 @@ class Model(object):
         a call to self.compute_posterior."""
 
         ######################## Your code here #########################
-        pass
-
-
+        posterior = self.compute_posterior(X, M)
+        return np.matmul(posterior, self.params.theta)
         #################################################################
         
     def visualize_components(self, title=None):
